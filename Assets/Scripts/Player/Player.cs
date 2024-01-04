@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     public float speedRun;
     public float forcejump = 2;
     private float _currentSpeed;
-   
+    
 
     private void Update()
     {
