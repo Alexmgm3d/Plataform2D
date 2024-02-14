@@ -16,10 +16,18 @@ public class Player : MonoBehaviour
     public float forcejump = 2;
 
     [Header("Animation Setup")]
-    private float jumpScaleY = 1.5f;
-    private float jumpScaleX = 0.7f;
+    public float jumpScaleY = 1.5f;
+    public float jumpScaleX = 0.7f;
     public float animationDuration = .3f;
     public Ease ease = Ease.OutBack;
+
+
+    [Header("Animation Player")]
+    public string boolRun = "Run";
+    public Animator animator;
+    public float playerSwipeDuration = .1f;
+
+
 
     private float _currentSpeed;
 
@@ -35,25 +43,52 @@ public class Player : MonoBehaviour
     private void Handlemoviment()
     {
         if (Input.GetKey(KeyCode.LeftShift))
+        {
             _currentSpeed = speedRun;
+            animator.speed = 2;
+        }
+
 
         else
+        { 
             _currentSpeed = speed;
-
+            animator.speed = 1;
+        }
 
 
         if (Input.GetKey(KeyCode.RightArrow))
         {
             //Movimentação do personagem - myrigidbody2d.MovePosition(myrigidbody2d.position + velocity * Time.deltaTime);
             myrigidbody2d.velocity = new Vector2(_currentSpeed, myrigidbody2d.velocity.y);
+            if(myrigidbody2d.transform.localScale.x != 1)
+            {
+                myrigidbody2d.transform.DOScaleX(1, playerSwipeDuration);
+
+            }
+
+            animator.SetBool(boolRun, true);
         }
 
         else if (Input.GetKey(KeyCode.LeftArrow))
         {
             // movimentação do personagem - myrigidbody2d.MovePosition(myrigidbody2d.position - velocity * Time.deltaTime);
             myrigidbody2d.velocity = new Vector2(-_currentSpeed, myrigidbody2d.velocity.y);
+            if (myrigidbody2d.transform.localScale.x != -1)
+            {
+                myrigidbody2d.transform.DOScaleX(-1, playerSwipeDuration);
+
+            }
+            animator.SetBool(boolRun, true);
+
 
         }
+
+        else
+        {
+
+            animator.SetBool(boolRun, false);
+        }
+
 
         if (myrigidbody2d.velocity.x > 0)
         {

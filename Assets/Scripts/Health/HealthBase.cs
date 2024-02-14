@@ -15,7 +15,7 @@ public class HealthBase : MonoBehaviour
 
     private void Awake()
     {
-        Init(); 
+        Init();
     }
 
     private void Init()
@@ -31,20 +31,23 @@ public class HealthBase : MonoBehaviour
 
 
         _currentLife -= damage;
-        if(_currentLife <=0)
+        if (_currentLife <= 0)
         {
             kill();
         }
-    }
+       }
 
     private void kill()
     {
         _isDead = true;
 
-        if(destroyonkill)
+        if (destroyonkill)
         {
             Destroy(gameObject, delayonKill);
+            Debug.Log("você Perdeu");
         }
     }
 
 }
+
+
