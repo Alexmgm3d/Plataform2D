@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     public float speed;
     public float speedRun;
     public float forcejump = 2;
+    public HealthBase healthBase;   
 
     [Header("Animation Setup")]
     public float jumpScaleY = 1.5f;
@@ -21,11 +22,27 @@ public class Player : MonoBehaviour
 
     [Header("Animation Player")]
     public string boolRun = "Run";
+    public string triggerDeath = "Death";
     public Animator animator;
     public float playerSwipeDuration = .1f;
 
     private float _currentSpeed;
     private Vector3 originalScale;
+
+
+    private void Awake()
+    {
+        if(healthBase !=null)
+        {
+            healthBase.OnKill += OnPlayerKill;
+        }
+    }
+
+    private void OnPlayerKill()
+    {
+        healthBase.OnKill -= OnPlayerKill;
+            animator.SetTrigger(triggerDeath);
+    }
 
     private void Start()
     {
@@ -94,5 +111,10 @@ public class Player : MonoBehaviour
     private void Flip()
     {
         transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+    }
+
+    public void Destroyme()
+    {
+        Destroy(gameObject);
     }
 }
